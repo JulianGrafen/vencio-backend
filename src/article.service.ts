@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { HttpService } from '@nestjs/axios';
-import { ReceiveArticleDto } from './ReceiveArticle.dto';
+import { ReceiveArticleDto } from './dtos/ReceiveArticle.dto';
 
 //TODO: Implement Logic to choose on which pages the article should bge uploaded
 
@@ -15,8 +15,7 @@ export class ArticleService {
     }
 
     async redirectArticleData(receiveArticleDto: ReceiveArticleDto): Promise<AxiosResponse<any>> {
-        const apiUrl = 'https://eoj3bapa9rcn4dn.m.pipedream.net';
-        const apiUr2 = ''
+        const apiUrl = 'http://localhost:5050/receivelisting';
 
         return this.httpService.post(apiUrl, receiveArticleDto).toPromise();
     }

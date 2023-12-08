@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ReceiveArticleDto } from './dtos/ReceiveArticle.dto';
-import { ArticleService } from './dtos/article.service';
+import { ArticleService } from './article.service';
 
 @Controller("articles")
 export class ArticleController {
