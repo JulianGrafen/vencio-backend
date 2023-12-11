@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import User from './user.entity';
 import * as bcrypt from 'bcryptjs';
-import { UserService } from './user.service';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dtos/signup.dto';
 import { LoginDto } from './dtos/login.dto';
@@ -19,6 +18,7 @@ export class AuthService {
 
   async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
     const { name, email, password } = signUpDto;
+    console.log(name,email,password);
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -44,6 +44,9 @@ export class AuthService {
 
     if (!user) {
       throw new UnauthorizedException('Invalid email or password');
+    }else{
+      console.log("Login successful");
+
     }
 
     const isPasswordMatched = await bcrypt.compare(password, user.password);
