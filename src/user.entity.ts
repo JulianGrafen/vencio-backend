@@ -1,8 +1,7 @@
 import {
     Column,
     Entity,
-    PrimaryGeneratedColumn,
-  } from 'typeorm';
+    PrimaryGeneratedColumn} from 'typeorm';
   
   @Entity()
   class User {

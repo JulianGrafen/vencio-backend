@@ -14,6 +14,7 @@ import { AuthModule } from './auth.module';
 
 @Module({
   imports: [ ConfigModule.forRoot({
+
     validationSchema: Joi.object({
       POSTGRES_HOST: Joi.string().required(),
       POSTGRES_PORT: Joi.number().required(),
