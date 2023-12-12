@@ -9,6 +9,10 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database.module';
 import { UsersModule } from './users.module';
 import { AuthModule } from './auth.module';
+import { ExceptionFilter } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
+import { ConflictExceptionFilter } from './exception.filter';
+
 
 
 
@@ -25,7 +29,10 @@ import { AuthModule } from './auth.module';
     }),
   }), HttpModule, DatabaseModule,UsersModule,AuthModule],
   controllers: [AppController, ArticleController],
-  providers: [AppService,ArticleService],
+  providers: [    {
+    provide: APP_FILTER,
+    useClass: ConflictExceptionFilter,
+  },AppService,ArticleService],
 })
 
 export class AppModule {}
