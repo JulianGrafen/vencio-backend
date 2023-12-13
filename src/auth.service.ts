@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException  } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import User from './user.entity';
@@ -6,6 +6,10 @@ import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dtos/signup.dto';
 import { LoginDto } from './dtos/login.dto';
+import { MockanzeigenDto } from './dtos/Mockanzeigen.dto';
+import { AxiosResponse } from 'axios';
+import { HttpService } from '@nestjs/axios';
+
 
 @Injectable()
 export class AuthService {
@@ -14,6 +18,8 @@ export class AuthService {
     @InjectRepository(User)
     private usersRepository: Repository<User>,
     private jwtService: JwtService,
+    private httpService: HttpService
+
   ) {}
 
   async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
@@ -63,4 +69,25 @@ export class AuthService {
 
     return { token };
   }
+
+  async registerPartnerAccount(mockanzeigenDto:MockanzeigenDto):Promise<AxiosResponse<any>>{
+    const mockanzeigenApiUrl = "http://localhost:5050/auth/signup"
+
+    const requestData = {
+      name: mockanzeigenDto.name, 
+      email: mockanzeigenDto.email,
+      password: mockanzeigenDto.password,
+    };
+   
+      try {
+        const response: AxiosResponse<any> = await this.httpService.post(mockanzeigenApiUrl, requestData).toPromise();
+        return response;
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          throw new ConflictException('USER ALREADY EXISTS');
+        }
+    
+        throw error;
+      }
+}
 }

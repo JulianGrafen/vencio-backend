@@ -9,9 +9,9 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database.module';
 import { UsersModule } from './users.module';
 import { AuthModule } from './auth.module';
-import { ExceptionFilter } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import { ConflictExceptionFilter } from './exception.filter';
+
 
 
 
