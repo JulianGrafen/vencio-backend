@@ -16,6 +16,16 @@ import {
   
     @Column()
     password: string;
+
+    @Column()
+    mockAnzeigenPassword: string;
+
+    @Column()
+    mockAnzeigenEmail: string;
+
+    //TODO: add additional columns for all other partnersites
+
+
   
   }
   

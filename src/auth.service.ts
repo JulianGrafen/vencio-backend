@@ -66,6 +66,12 @@ export class AuthService {
 
   async registerPartnerAccount(mockanzeigenDto:MockanzeigenDto):Promise<AxiosResponse<any>>{
     const mockanzeigenApiUrl = "http://localhost:5050/auth/signup"
+
+    console.log(mockanzeigenDto)
+    //mockanzeigen.credentials = name, email, passowrd
+
+    //this.repository.save: mockanzeigen.credentials
+
     const requestData = {
       name: mockanzeigenDto.name, 
       email: mockanzeigenDto.email,
