@@ -39,8 +39,6 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    console.log(name,email);
-
     await this.usersRepository.save(user);
 
     const token = this.jwtService.sign({ id: user.id });
@@ -81,7 +79,7 @@ export class AuthService {
    
       try {
         const response: AxiosResponse<any> = await this.httpService.post(mockanzeigenApiUrl, requestData).toPromise();
-        return response;
+        return response.data;
       } catch (error) {
         if (error.response && error.response.status === 409) {
           throw new ConflictException('USER ALREADY EXISTS');
