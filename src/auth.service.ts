@@ -22,15 +22,13 @@ export class AuthService {
 
   ) {}
 
-  async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
+  async signUp(signUpDto: SignUpDto): Promise<{ token: string; userId:number}> {
     const { name, email, password } = signUpDto;
-
     const existingUser = await this.usersRepository.findOne({ where: { email } });
 
     if (existingUser) {
       throw new ConflictException('Email already exists');
     }
-
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await this.usersRepository.create({
@@ -40,15 +38,15 @@ export class AuthService {
     });
 
     await this.usersRepository.save(user);
-
     const token = this.jwtService.sign({ id: user.id });
-
-    return { token };
+    return { token, userId: user.id };
   }
+
+
+
 
   async login(loginDto: LoginDto): Promise<{ token: string }> {
     const { name, password } = loginDto;
-
     const user = await this.usersRepository.findOne({
       where: { name }, // Update to use the 'name' field for login
     });
@@ -56,7 +54,6 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Invalid username or password');
     }
-
     const isPasswordMatched = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatched) {
@@ -64,19 +61,16 @@ export class AuthService {
     }
 
     const token = this.jwtService.sign({ id: user.id });
-
     return { token };
   }
 
   async registerPartnerAccount(mockanzeigenDto:MockanzeigenDto):Promise<AxiosResponse<any>>{
     const mockanzeigenApiUrl = "http://localhost:5050/auth/signup"
-
     const requestData = {
       name: mockanzeigenDto.name, 
       email: mockanzeigenDto.email,
       password: mockanzeigenDto.password,
     };
-   
       try {
         const response: AxiosResponse<any> = await this.httpService.post(mockanzeigenApiUrl, requestData).toPromise();
         return response.data;
@@ -84,7 +78,6 @@ export class AuthService {
         if (error.response && error.response.status === 409) {
           throw new ConflictException('USER ALREADY EXISTS');
         }
-    
         throw error;
       }
 }

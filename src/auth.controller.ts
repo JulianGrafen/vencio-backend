@@ -10,7 +10,7 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/signup')
-  signUp(@Body() signUpDto: SignUpDto): Promise<{ token: string }> {
+  signUp(@Body() signUpDto: SignUpDto): Promise<{ token: string; userId:number }> {
     return this.authService.signUp(signUpDto);
   }
 
@@ -19,8 +19,10 @@ export class AuthController {
     return this.authService.login(loginDto);
   }
 
-  @Post('/registerPartnerAccount')
+  @Post('/registerPartnerAccount') //TODO: Rename to "register Mockanzeigen and add endpoints for every partner page"
   registerPartner(@Body() mockanzeigenDto: MockanzeigenDto): Promise<any> {
     return this.authService.registerPartnerAccount(mockanzeigenDto);
   }
+
+  
 }
