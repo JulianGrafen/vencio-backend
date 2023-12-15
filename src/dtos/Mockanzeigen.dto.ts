@@ -4,7 +4,6 @@ import { Column } from 'typeorm';
 export class MockanzeigenDto {
 
 
-
   @IsString()
   @IsNotEmpty()
   @Column({unique: true})
@@ -21,5 +20,5 @@ export class MockanzeigenDto {
 
   @IsNotEmpty()
   @IsString()
-  id: string;
+  id: number;
 }

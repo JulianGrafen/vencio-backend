@@ -9,6 +9,7 @@ import { LoginDto } from './dtos/login.dto';
 import { MockanzeigenDto } from './dtos/Mockanzeigen.dto';
 import { AxiosResponse } from 'axios';
 import { HttpService } from '@nestjs/axios';
+import { response } from 'express';
 
 
 @Injectable()
@@ -23,7 +24,7 @@ export class AuthService {
   ) {}
 
   async signUp(signUpDto: SignUpDto): Promise<{ token: string; userId:number}> {
-    const { name, email, password } = signUpDto;
+    const { name, email, password, mockAnzeigenPassword, mockAnzeigenEmail } = signUpDto;
     const existingUser = await this.usersRepository.findOne({ where: { email } });
 
     if (existingUser) {
@@ -35,6 +36,8 @@ export class AuthService {
       name,
       email,
       password: hashedPassword,
+      mockAnzeigenPassword,
+      mockAnzeigenEmail
     });
 
     await this.usersRepository.save(user);
@@ -65,12 +68,11 @@ export class AuthService {
   }
 
   async registerPartnerAccount(mockanzeigenDto:MockanzeigenDto):Promise<AxiosResponse<any>>{
+    const { email, id, password } =  mockanzeigenDto;
+
+
     const mockanzeigenApiUrl = "http://localhost:5050/auth/signup"
 
-    console.log(mockanzeigenDto)
-    //mockanzeigen.credentials = name, email, passowrd
-
-    //this.repository.save: mockanzeigen.credentials
 
     const requestData = {
       name: mockanzeigenDto.name, 
@@ -79,6 +81,14 @@ export class AuthService {
     };
       try {
         const response: AxiosResponse<any> = await this.httpService.post(mockanzeigenApiUrl, requestData).toPromise();
+        const user = await this.usersRepository.findOne({ where: {id} });
+
+          const hashedPassword = await bcrypt.hash(password, 10);
+          console.log(mockanzeigenDto);
+          await this.usersRepository.update(user, {
+            mockAnzeigenEmail: email,
+            mockAnzeigenPassword: hashedPassword
+          });
         return response.data;
       } catch (error) {
         if (error.response && error.response.status === 409) {

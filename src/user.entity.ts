@@ -17,10 +17,14 @@ import {
     @Column()
     password: string;
 
-    @Column()
+    @Column({
+      nullable: true,
+    })
     mockAnzeigenPassword: string;
 
-    @Column()
+    @Column({
+      nullable: true,
+    })
     mockAnzeigenEmail: string;
 
     //TODO: add additional columns for all other partnersites
