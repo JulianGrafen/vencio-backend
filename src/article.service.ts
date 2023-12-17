@@ -31,12 +31,16 @@ export class ArticleService {
         try {
             const response: AxiosResponse<{ _id: string }> = await this.httpService.post(apiUrl, receiveArticleDto).toPromise();
             const objectId: string = response.data._id;
-
-        
-            
+            const id: number = receiveArticleDto.userId;
+            const user = await this.usersRepository.findOne({where: {id}});
+            if (!user) {
+                console.error('User not found');
+                return;
+              }
+            const listing = new Listing();
+            user.listings = [...user.listings, listing];
+            await this.usersRepository.save(user);
             console.log(objectId);
-
-
             
           } catch (error) {
             throw error;

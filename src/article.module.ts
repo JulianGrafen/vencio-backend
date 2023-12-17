@@ -1,4 +1,3 @@
-import { UserService } from './user.service';
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from './database.module';
 import { ArticleController } from './article.controller';

@@ -5,7 +5,5 @@ export class ReceiveArticleDto{
     category: string;
     condition: string;
     shipping: string;
-    userId:{
-        storedUserId: number;
-    }
+    userId: number;
 }
