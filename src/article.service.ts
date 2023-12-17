@@ -16,6 +16,13 @@ export class ArticleService {
 
     async redirectArticleData(receiveArticleDto: ReceiveArticleDto): Promise<AxiosResponse<any>> {
         const apiUrl = 'http://localhost:5050/receivelisting';
+        try {
+            const response: AxiosResponse<{ _id: string }> = await this.httpService.post(apiUrl, receiveArticleDto).toPromise();
+            const objectId: string = response.data._id;
+            console.log(objectId);
+          } catch (error) {
+            throw error;
+          }
 
         return this.httpService.post(apiUrl, receiveArticleDto).toPromise();
     }

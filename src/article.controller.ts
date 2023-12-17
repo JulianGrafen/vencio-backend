@@ -11,5 +11,7 @@ receiveArticle(@Body() receiveArticleDto : ReceiveArticleDto){
     console.log(receiveArticleDto);
 this.articleService.logArticle(receiveArticleDto);
 this.articleService.redirectArticleData(receiveArticleDto);
+
+
 }
 }
