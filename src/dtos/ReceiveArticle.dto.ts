@@ -1,4 +1,5 @@
 export class ReceiveArticleDto{
+    userID: string;
     title: string;
     description:string;
     price: string;

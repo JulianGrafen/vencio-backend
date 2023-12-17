@@ -9,10 +9,9 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database.module';
 import { UsersModule } from './users.module';
 import { AuthModule } from './auth.module';
+import { ArticleModule } from './article.module';
 import { APP_FILTER } from '@nestjs/core';
 import { ConflictExceptionFilter } from './exception.filter';
-
-
 
 
 
@@ -27,12 +26,12 @@ import { ConflictExceptionFilter } from './exception.filter';
       POSTGRES_DB: Joi.string().required(),
       PORT: Joi.number(),
     }),
-  }), HttpModule, DatabaseModule,UsersModule,AuthModule],
-  controllers: [AppController, ArticleController],
+  }), HttpModule, DatabaseModule,UsersModule,AuthModule, ArticleModule],
+  controllers: [AppController],
   providers: [    {
     provide: APP_FILTER,
     useClass: ConflictExceptionFilter,
-  },AppService,ArticleService],
+  },AppService],
 })
 
 export class AppModule {}

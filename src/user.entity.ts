@@ -1,8 +1,13 @@
 import {
     Column,
     Entity,
+    OneToMany,
     PrimaryGeneratedColumn} from 'typeorm';
+    
+import Listing  from './listing.entity';
   
+
+
   @Entity()
   class User {
     @PrimaryGeneratedColumn()
@@ -17,6 +22,9 @@ import {
     @Column()
     password: string;
 
+    @OneToMany(() => Listing, (listing) => listing.user)
+    listings: Listing[];
+
     @Column({
       nullable: true,
     })
@@ -28,9 +36,7 @@ import {
     mockAnzeigenEmail: string;
 
     //TODO: add additional columns for all other partnersites
-
-
-  
   }
-  
+
   export default User;
+  
