@@ -32,6 +32,10 @@ export class ArticleService {
             const response: AxiosResponse<{ _id: string }> = await this.httpService.post(apiUrl, receiveArticleDto).toPromise();
             const objectId: string = response.data._id;
 
+        
+            
+            console.log(objectId);
+
 
             
           } catch (error) {
