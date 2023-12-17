@@ -85,7 +85,7 @@ export class AuthService {
 
           const hashedPassword = await bcrypt.hash(password, 10);
           console.log(mockanzeigenDto);
-          await this.usersRepository.update(user, {
+          await this.usersRepository.update(id, {
             mockAnzeigenEmail: email,
             mockAnzeigenPassword: hashedPassword
           });

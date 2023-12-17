@@ -18,9 +18,9 @@ export class SignUpDto {
   password: string;
 
   @IsString()
-  mockAnzeigenPassword: string|null; 
+  mockAnzeigenPassword: string; 
 
   @IsString()
-  mockAnzeigenEmail: string|null;
+  mockAnzeigenEmail: string;
 
 }
