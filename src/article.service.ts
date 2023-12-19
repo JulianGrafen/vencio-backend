@@ -23,10 +23,7 @@ export class ArticleService {
         ) 
         {}
 
-    logArticle(receiveArticleDto: ReceiveArticleDto) {
-        console.log(receiveArticleDto);
-        
-    }
+ 
 
 
     async redirectArticleData(receiveArticleDto: ReceiveArticleDto): Promise<AxiosResponse<any>> {
@@ -57,21 +54,21 @@ export class ArticleService {
     }
 
 
-    async getAllArticlesFromUser(): Promise<User | null> {
+    async getAllArticlesFromUser(userId): Promise< any> {
 
-      const id: number = 3
+      const id: number = userId;
       ;
 
       try {
-        const listings = await this.usersRepository.findOne({ where: { id }, relations: ['listings'] });
+        const allListings = await this.usersRepository.findOne({ where: { id }, relations: ['listings'] });
       
-        if (listings === null) {
+        if (allListings === null) {
           console.log("User ID not found");
           throw new ConflictException("USER ID NOT FOUND");
         }
       
-        console.log(listings);
-        return listings;
+        console.log(allListings.listings);
+        return allListings.listings;
       } catch (error) {
         throw error;
       }

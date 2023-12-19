@@ -84,7 +84,6 @@ export class AuthService {
         const user = await this.usersRepository.findOne({ where: {id} });
 
           const hashedPassword = await bcrypt.hash(password, 10);
-          console.log(mockanzeigenDto);
           await this.usersRepository.update(id, {
             mockAnzeigenEmail: email,
             mockAnzeigenPassword: hashedPassword

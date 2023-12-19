@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ReceiveArticleDto } from './dtos/ReceiveArticle.dto';
 import { ArticleService } from './article.service';
-import { request } from 'http';
 
 @Controller("articles")
 export class ArticleController {
@@ -9,12 +8,21 @@ export class ArticleController {
 
 @Post('receive')
 receiveArticle(@Body() receiveArticleDto : ReceiveArticleDto){
-this.articleService.logArticle(receiveArticleDto);
 this.articleService.redirectArticleData(receiveArticleDto);
-this.articleService.getAllArticlesFromUser();
+}
 
-
-
+@Get(':id')
+async getAllArticlesFromUser(@Param('id')userId:number){
+  const listing = await this.articleService.getAllArticlesFromUser(userId);
+  return listing;
+}
 
 }
-}
+
+
+
+
+
+
+
+
