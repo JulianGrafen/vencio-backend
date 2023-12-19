@@ -6,8 +6,13 @@ import  User  from './user.entity';
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  objectId: string;
+
   @ManyToOne(() => User, (user) => user.listings)
   user: User;
+
+
 }
 
 export default Listing;

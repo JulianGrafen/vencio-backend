@@ -17,7 +17,7 @@ export class ArticleService {
         @InjectRepository(User)
         private usersRepository: Repository<User>,
         @InjectRepository(Listing)
-        private readonly listingRepository: Repository<Listing>,
+        private listingRepository: Repository<Listing>,
         ) 
         {}
 
@@ -30,16 +30,19 @@ export class ArticleService {
         const apiUrl = 'http://localhost:5050/receivelisting';
         try {
             const response: AxiosResponse<{ _id: string }> = await this.httpService.post(apiUrl, receiveArticleDto).toPromise();
+
+
             const objectId: string = response.data._id;
             const id: number = receiveArticleDto.userId;
-            const user = await this.usersRepository.findOne({where: {id}});
-            if (!user) {
-                console.error('User not found');
-                return;
-              }
+
+            const user = await this.usersRepository.findOne({where:{id}});
+
+
             const listing = new Listing();
-            user.listings = [...user.listings, listing];
-            await this.usersRepository.save(user);
+              listing.objectId = objectId;
+              listing.user = user;
+
+              await this.listingRepository.save(listing);
             console.log(objectId);
             
           } catch (error) {

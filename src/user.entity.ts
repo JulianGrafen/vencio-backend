@@ -24,8 +24,7 @@ import Listing  from './listing.entity';
 
     @OneToMany(() => Listing, (listing) => listing.user)
     listings: Listing[];
-    
-
+  
     @Column({
       nullable: true,
     })
