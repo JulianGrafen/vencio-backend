@@ -72,11 +72,11 @@ export class ArticleService {
 
         const response: AxiosResponse<{ _id: string }> = await this.httpService.post(apiUrl, objectIdArray).toPromise();
 
-        const title = response.data;
+        const listings = response.data;
 
       
-        console.log(title);
-        return allListings.listings;
+        console.log(listings);
+        return listings;
       } catch (error) {
         throw error;
       }

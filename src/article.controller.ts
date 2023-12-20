@@ -13,8 +13,8 @@ this.articleService.redirectArticleData(receiveArticleDto);
 
 @Get(':id')
 async getAllArticlesFromUser(@Param('id')userId:number){
-  const listing = await this.articleService.getAllArticlesFromUser(userId);
-  return listing;
+  const listings = await this.articleService.getAllArticlesFromUser(userId);
+  return listings;
 }
 
 }
