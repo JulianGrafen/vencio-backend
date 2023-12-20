@@ -1,13 +1,12 @@
 import { ConflictException, Injectable } from '@nestjs/common';
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { HttpService } from '@nestjs/axios';
 import { ReceiveArticleDto } from './dtos/ReceiveArticle.dto';
 import User  from './user.entity';
 import Listing  from './listing.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { response } from 'express';
-import { error } from 'console';
+
 
 //TODO: Implement Logic to choose on which pages the article should bge uploaded
 
@@ -56,18 +55,27 @@ export class ArticleService {
 
     async getAllArticlesFromUser(userId): Promise< any> {
 
+
+      //TODO: Add method to send the objectIDs to partner site and receive all attributes from the article
       const id: number = userId;
-      ;
+      const apiUrl = 'http://localhost:5050/getlistingsbyid';
+
 
       try {
         const allListings = await this.usersRepository.findOne({ where: { id }, relations: ['listings'] });
-      
         if (allListings === null) {
           console.log("User ID not found");
           throw new ConflictException("USER ID NOT FOUND");
         }
+
+        const objectIdArray = allListings.listings.map((listing) => listing.objectId);
+
+        const response: AxiosResponse<{ _id: string }> = await this.httpService.post(apiUrl, objectIdArray).toPromise();
+
+        const title = response.data;
+
       
-        console.log(allListings.listings);
+        console.log(title);
         return allListings.listings;
       } catch (error) {
         throw error;
