@@ -84,13 +84,21 @@ export class ArticleService {
 
 
   }
-  async changeArticles(updatedArticleDto:UpdatedArticleDto): Promise<AxiosResponse<any>>{
-    const apiUrl = "http://localhost:5050/receivelisting"
+  async changeArticles(updatedArticleDto: UpdatedArticleDto): Promise<AxiosResponse<any>> {
+    console.log("test");
+    try {
+      const updateMockanzeigenApiUrl =  "http://localhost:5050/update";
 
- 
-return;
+      const response = await this.httpService.patch(updateMockanzeigenApiUrl, updatedArticleDto).toPromise();
+
+      console.log(response.data); 
+
+      return response;
+    } catch (error) {
+      console.error('Error updating articles on partner website:', error);
+      throw error;
+    }
   }
 }
-
   
 
