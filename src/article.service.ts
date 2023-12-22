@@ -6,6 +6,7 @@ import User  from './user.entity';
 import Listing  from './listing.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UpdatedArticleDto } from './dtos/UpdatedArticle.dto';
 
 
 //TODO: Implement Logic to choose on which pages the article should bge uploaded
@@ -43,7 +44,6 @@ export class ArticleService {
               listing.user = user;
 
               await this.listingRepository.save(listing);
-            console.log(objectId);
             
           } catch (error) {
             throw error;
@@ -75,7 +75,7 @@ export class ArticleService {
         const listings = response.data;
 
       
-        console.log(listings);
+        console.log(listings, "getAllArticles called");
         return listings;
       } catch (error) {
         throw error;
@@ -84,4 +84,13 @@ export class ArticleService {
 
 
   }
+  async changeArticles(updatedArticleDto:UpdatedArticleDto): Promise<AxiosResponse<any>>{
+    const apiUrl = "http://localhost:5050/receivelisting"
+
+ 
+return;
+  }
 }
+
+  
+
