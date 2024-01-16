@@ -15,9 +15,11 @@ export class AuthController {
   }
 
   @Post('/login')
-  login(@Body() loginDto: LoginDto): Promise<{ token: string }> {
-    return this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDto): Promise<{ token: string, userId: number }> {
+    const { token, userId } = await this.authService.login(loginDto);
+    return { token, userId };
   }
+  
 
   @Post('/registerPartnerAccount') //TODO: Rename to "register Mockanzeigen and add endpoints for every partner page"
   registerPartner(@Body() mockanzeigenDto: MockanzeigenDto): Promise<any> {

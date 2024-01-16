@@ -48,32 +48,30 @@ export class AuthService {
 
 
 
-  async login(loginDto: LoginDto): Promise<{ token: string }> {
+  async login(loginDto: LoginDto): Promise<{ token: string, userId: number }> {
     const { name, password } = loginDto;
     const user = await this.usersRepository.findOne({
       where: { name }, // Update to use the 'name' field for login
     });
-
+  
     if (!user) {
       throw new UnauthorizedException('Invalid username or password');
     }
+  
     const isPasswordMatched = await bcrypt.compare(password, user.password);
-
+  
     if (!isPasswordMatched) {
       throw new UnauthorizedException('Invalid username or password');
     }
-
+  
     const token = this.jwtService.sign({ id: user.id });
-    return { token };
+    return { token, userId: user.id };
   }
+  
 
   async registerPartnerAccount(mockanzeigenDto:MockanzeigenDto):Promise<AxiosResponse<any>>{
     const { email, id, password } =  mockanzeigenDto;
-
-
     const mockanzeigenApiUrl = "http://localhost:5050/auth/signup"
-
-
     const requestData = {
       name: mockanzeigenDto.name, 
       email: mockanzeigenDto.email,
